@@ -23,6 +23,9 @@ const initialInputValues = [
 export const TicTacToe = () => {
   const [inputValues, setInputValues] = useState(initialInputValues)
 
+  // TODO 後で消す
+  console.log(setInputValues)
+
   const onClickSquare = (index) => {
     console.log(index)
   }

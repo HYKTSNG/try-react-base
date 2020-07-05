@@ -4,7 +4,7 @@
  * @see https://github.com/Microsoft/TypeScript/issues/15230
  */
 // eslint-disable-next-line jest/no-export
-export { }
+export {}
 
 /**
  * `npm test` が正しく動作することを確認するためのサンプル
