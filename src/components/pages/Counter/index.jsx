@@ -13,6 +13,18 @@ export const Counter = () => {
   const onAdd1 = () => {
     setCount(count + 1)
   }
+  const onAdd100 = () => {
+    setCount(count + 100)
+  }
+  const onMINUS1 = () => {
+    setCount(count - 1)
+  }
+  const onMINUS100 = () => {
+    setCount(count - 100)
+  }
+  const onExtraAdd = () => {
+    setCount(count - 100)
+  }
 
   return (
     <div css={root}>
@@ -23,9 +35,15 @@ export const Counter = () => {
           <button css={btn} onClick={onAdd1}>
             Add 1
           </button>
-          <button css={[ml, btn]}>Add 100</button>
-          <button css={[ml, btn]}>Minus 1</button>
-          <button css={[ml, btn]}>Minus 100</button>
+          <button css={[ml, btn]} onClick={onAdd100}>
+            Add 100
+          </button>
+          <button css={[ml, btn]} onClick={onMINUS1}>
+            Minus 1
+          </button>
+          <button css={[ml, btn]} onClick={onMINUS100}>
+            Minus 100
+          </button>
         </div>
         <div css={pt}>
           <input
@@ -33,7 +51,10 @@ export const Counter = () => {
             type="number"
             value={extraCount}
           />
-          <button css={[ml, extraBtn]}>Extra Add</button>
+
+          <button css={[ml, extraBtn]} onClick={onExtraAdd}>
+            Extra Add
+          </button>
         </div>
       </div>
     </div>
