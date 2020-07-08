@@ -23,7 +23,7 @@ export const Counter = () => {
     setCount(count - 100)
   }
   const onExtraAdd = () => {
-    setCount(count - 100)
+    setCount(count + Number(extraCount))
   }
 
   return (
