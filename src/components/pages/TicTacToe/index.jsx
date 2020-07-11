@@ -9,6 +9,7 @@ import { calculateWinner } from "src/utils/tttUtils"
 /**
  * @type {("O" | "X" | undefined)[]}
  */
+
 const initialInputValues = [
   /* eslint-disable */
   undefined, undefined, undefined,
@@ -20,14 +21,22 @@ const initialInputValues = [
 /**
  * 三木並べアプリ
  */
+let turn = 0
 export const TicTacToe = () => {
   const [inputValues, setInputValues] = useState(initialInputValues)
 
-  // TODO 後で消す
-  console.log(setInputValues)
-
   const onClickSquare = (index) => {
-    console.log(index)
+    const next = [...inputValues]
+
+    if (turn % 2 === 0) {
+      next[index] = "o"
+      turn += 1
+    } else {
+      next[index] = "x"
+      turn += 1
+    }
+
+    setInputValues(next)
   }
 
   return (
@@ -41,7 +50,7 @@ export const TicTacToe = () => {
             onClickSquare={onClickSquare}
           />
           <div css={pt}>
-            <button>Reset</button>
+            <button onClick={onClickSquare}>Reset</button>
           </div>
         </div>
         <div css={pt}>
