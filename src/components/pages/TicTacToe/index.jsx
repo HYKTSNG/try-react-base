@@ -38,6 +38,9 @@ export const TicTacToe = () => {
 
     setInputValues(next)
   }
+  const onClickReset = () => {
+    setInputValues(initialInputValues)
+  }
 
   return (
     <div css={root}>
@@ -50,7 +53,7 @@ export const TicTacToe = () => {
             onClickSquare={onClickSquare}
           />
           <div css={pt}>
-            <button onClick={onClickSquare}>Reset</button>
+            <button onClick={onClickReset}>Reset</button>
           </div>
         </div>
         <div css={pt}>
