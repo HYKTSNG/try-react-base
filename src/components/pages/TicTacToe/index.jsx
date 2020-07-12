@@ -18,7 +18,6 @@ const initialInputValues = [
   /* eslint-enable */
 ]
 const defaultPlayerName = "O"
-
 /**
  * 三木並べアプリ
  */
@@ -46,6 +45,8 @@ export const TicTacToe = () => {
     setPlayerName(defaultPlayerName)
   }
 
+  const winner = calculateWinner(inputValues)
+
   return (
     <div css={root}>
       <h1>TicTacToe App</h1>
@@ -53,7 +54,7 @@ export const TicTacToe = () => {
         <div css={pt}>
           <TTTBoard
             inputValues={inputValues}
-            isGameOver={false}
+            isGameOver={winner}
             onClickSquare={onClickSquare}
           />
           <div css={pt}>
@@ -63,7 +64,7 @@ export const TicTacToe = () => {
         <div css={pt}>
           <TTTGameInfo
             currentPlayerName={playerName}
-            winnerPlayerName={calculateWinner(inputValues)}
+            winnerPlayerName={winner}
           />
         </div>
       </div>
