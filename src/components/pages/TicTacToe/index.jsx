@@ -18,28 +18,39 @@ const initialInputValues = [
   /* eslint-enable */
 ]
 
+const defaultPlayerName = "o"
+
 /**
  * 三木並べアプリ
  */
 let turn = 0
 export const TicTacToe = () => {
   const [inputValues, setInputValues] = useState(initialInputValues)
+  const [PlayerName, setPlayerName] = useState(defaultPlayerName)
 
   const onClickSquare = (index) => {
     const next = [...inputValues]
+    const nextPlayer = [inputValues]
 
     if (turn % 2 === 0) {
       next[index] = "o"
+      nextPlayer[index] = "x"
       turn += 1
     } else {
       next[index] = "x"
+      nextPlayer[index] = "o"
+
       turn += 1
     }
 
     setInputValues(next)
+    setPlayerName(next)
   }
+
   const onClickReset = () => {
     setInputValues(initialInputValues)
+    setPlayerName(defaultPlayerName)
+    turn = 0
   }
 
   return (
@@ -58,7 +69,7 @@ export const TicTacToe = () => {
         </div>
         <div css={pt}>
           <TTTGameInfo
-            currentPlayerName="O"
+            currentPlayerName={PlayerName}
             winnerPlayerName={calculateWinner(inputValues)}
           />
         </div>
