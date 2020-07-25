@@ -60,6 +60,7 @@ export const Todo = () => {
 
       <ul>
         {todoList.map((todo, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <li key={index}>{todo.task}</li>
         ))}
       </ul>
