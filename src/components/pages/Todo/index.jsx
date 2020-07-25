@@ -5,44 +5,53 @@ import { useState } from "react"
 /**
  * TODOアプリ
  */
+// 初期値のList
+const initialState = [
+  // Sample data
+  // {
+  //   isCompleted: false,
+  //   task: "0000000",
+  // },
+  // {
+  //   isCompleted: false,
+  //   task: "1111111111",
+  // },
+]
 
 export const Todo = () => {
-  // 初期値のList
-  const initialState = [
-    {
-      isCompleted: false,
-      task: "sososo",
-    },
-    {
-      isCompleted: false,
-      task: "Learn vue.js",
-    },
-  ]
-  const [text, setTask] = useState("")
-  const [todos, setTodo] = useState(initialState)
+  const [task, setTask] = useState("")
+  const [todoList, setTodoList] = useState(initialState)
 
-  const handleNewTask = (e) => {
+  const onChangeTask = (e) => {
     setTask(e.target.value)
   }
 
-  const onClickAdd = (e) => {
-    console.log(e)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (task === "") return
+    //  setTodoList((prev) => [...prev, { isCompleted: false, task }])
+    const next = [...todoList, { isCompleted: false, task }]
+    setTodoList(next)
+    setTask("")
   }
 
   return (
     <div>
       <div css={root}>Todo App</div>
       <div css={inputWrapper}>
-        <input
-          // FORM の仕様
-          onChange={handleNewTask}
-          placeholder="Add New Task"
-          value={text}
-        />
+        <form onSubmit={handleSubmit}>
+          Add Task :{" "}
+          <input
+            // FORM の仕様
+            onChange={onChangeTask}
+            placeholder="Add New Task"
+            value={task}
+          />
+        </form>
         <button
           // TODO リストに追加ボタンを実装
           onClick={(e) => {
-            onClickAdd(e)
+            handleSubmit(e)
           }}
         >
           追加
@@ -50,7 +59,7 @@ export const Todo = () => {
       </div>
 
       <ul>
-        {todos.map((todo, index) => (
+        {todoList.map((todo, index) => (
           <li key={index}>{todo.task}</li>
         ))}
       </ul>
