@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
 import { useState } from "react"
@@ -35,6 +37,14 @@ export const Todo = () => {
     setTask("")
   }
 
+  const onClickDelete = (index) => {
+    const newTodoList = [...todoList]
+    newTodoList.splice(index, 1)
+    setTodoList(newTodoList)
+  }
+
+  const onClickEdit = console.log("a")
+
   return (
     <div>
       <div css={root}>Todo App</div>
@@ -61,7 +71,16 @@ export const Todo = () => {
       <ul>
         {todoList.map((todo, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <li key={index}>{todo.task}</li>
+          <li key={index}>
+            {todo.task} {/* EDITボタンの実装 */}
+            <span css={editWrapper} onClick={() => onClickEdit(index)}>
+              EDIT
+            </span>
+            {/* DELETEボタンの実装 */}
+            <span css={deleteWrapper} onClick={() => onClickDelete(index)}>
+              DELETE
+            </span>{" "}
+          </li>
         ))}
       </ul>
     </div>
@@ -78,5 +97,18 @@ const inputWrapper = css`
   padding-top: 24px;
   padding-left: 56px;
 `
+
+const deleteWrapper = css`
+  margin-left: 8px;
+  background-color: lightpink;
+`
+
+const editWrapper = css`
+  margin-left: 8px;
+  background-color: greenyellow;
+`
+
 // 最後に色付ける
 // background-color: aquamarine;
+
+// ラジオボタン
