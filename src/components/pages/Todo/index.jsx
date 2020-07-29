@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import { useState } from "react"
+import React, { useState } from "react"
 
 /**
  * TODOアプリ
@@ -10,14 +10,14 @@ import { useState } from "react"
 // 初期値のList
 const initialState = [
   // Sample data
-  // {
-  //   isCompleted: false,
-  //   task: "0000000",
-  // },
-  // {
-  //   isCompleted: false,
-  //   task: "1111111111",
-  // },
+  {
+    isCompleted: false,
+    task: "0000000",
+  },
+  {
+    isCompleted: false,
+    task: "1111111111",
+  },
 ]
 
 export const Todo = () => {
@@ -36,61 +36,85 @@ export const Todo = () => {
     setTodoList(next)
     setTask("")
   }
-
+  // DELETEボタンの中身
   const onClickDelete = (index) => {
     const newTodoList = [...todoList]
     newTodoList.splice(index, 1)
     setTodoList(newTodoList)
   }
 
+  // EDITボタンの中身
   const onClickEdit = console.log("a")
 
-  return (
-    <div>
-      <div css={root}>Todo App</div>
-      <div css={inputWrapper}>
-        <form onSubmit={handleSubmit}>
-          Add Task :{" "}
-          <input
-            // FORM の仕様
-            onChange={onChangeTask}
-            placeholder="Add New Task"
-            value={task}
-          />
-        </form>
-        <button
-          // TODO リストに追加ボタンを実装
-          onClick={(e) => {
-            handleSubmit(e)
-          }}
-        >
-          追加
-        </button>
-      </div>
+  // checkBoxの中身
+  const handleCheckboxChanges = (task) => {
+    setTodoList(
+      todoList.filter((x) => {
+        if (x === task) x.doning = !x.doing
+        return x
+      })
+    )
+  }
 
-      <ul>
-        {todoList.map((todo, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <li key={index}>
-            {todo.task} {/* EDITボタンの実装 */}
-            <span css={editWrapper} onClick={() => onClickEdit(index)}>
-              EDIT
-            </span>
-            {/* DELETEボタンの実装 */}
-            <span css={deleteWrapper} onClick={() => onClickDelete(index)}>
-              DELETE
-            </span>{" "}
-          </li>
-        ))}
-      </ul>
-    </div>
+  return (
+    <React.Fragment>
+      <div>
+        <div css={root}>Todo App</div>
+        <div css={inputWrapper}>
+          <form onSubmit={handleSubmit}>
+            Add Task :
+            <input
+              // FORM の仕様
+              onChange={onChangeTask}
+              placeholder="Add New Task"
+              value={task}
+            />
+          </form>
+          <button
+            // TODO リストに追加ボタンを実装
+            onClick={(e) => {
+              handleSubmit(e)
+            }}
+          >
+            ADD
+          </button>
+        </div>
+
+        <ul>
+          {todoList.map((todo, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <ul css={inputWrapper} key={index}>
+              <input css={checkBoxWrapper} type="checkbox" />
+              {todo.task} {/* EDI Tボタンの実装 */}
+              <span css={editWrapper} onClick={() => onClickEdit(index)}>
+                EDIT
+              </span>
+              {/* DELETEボタンの実装 */}
+              <span css={deleteWrapper} onClick={() => onClickDelete(index)}>
+                DELETE
+              </span>{" "}
+            </ul>
+          ))}
+          <ul css={radioWrapper}>
+            <input type="radio" />
+            ALL
+            <input type="radio" />
+            Active
+            <input type="radio" />
+            Completed
+          </ul>
+        </ul>
+      </div>
+    </React.Fragment>
   )
 }
 
 const root = css`
   font-size: 56px;
   padding-top: 56px;
-  padding-left: 64px;
+  padding-left: 56px;
+
+  text-indent: 0.5em;
 `
 const inputWrapper = css`
   font-size: 24px;
@@ -99,16 +123,28 @@ const inputWrapper = css`
 `
 
 const deleteWrapper = css`
+  text-indent: 1em;
   margin-left: 8px;
   background-color: lightpink;
 `
 
 const editWrapper = css`
   margin-left: 8px;
+  margin-right: 8px;
   background-color: greenyellow;
+  text-indent: 1em;
+`
+const checkBoxWrapper = css`
+  width: 16px;
+  height: 16px;
 `
 
-// 最後に色付ける
-// background-color: aquamarine;
-
 // ラジオボタン
+const radioWrapper = css`
+  margin-left: 32px;
+  margin-top: 32px;
+  letter-spacing: 0.1em;
+  text-indent: 0.5em;
+  padding-left: 56px;
+  font-size: 24px;
+`
