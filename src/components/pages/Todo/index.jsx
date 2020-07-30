@@ -1,150 +1,103 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import React, { useState } from "react"
+import { useState } from "react"
+import { TodoFilter } from "src/components/organisms/TodoFilter"
+import { TodoListView } from "src/components/organisms/TodoListView"
+import { ml, pt, pt2 } from "src/components/styles/utils"
+
+const createId = () => {
+  return Math.random()
+}
 
 /**
  * TODOアプリ
  */
-// 初期値のList
-const initialState = [
-  // Sample data
-  {
-    isCompleted: false,
-    task: "0000000",
-  },
-  {
-    isCompleted: false,
-    task: "1111111111",
-  },
-]
-
 export const Todo = () => {
-  const [task, setTask] = useState("")
-  const [todoList, setTodoList] = useState(initialState)
+  const [todoList, setTodoList] = useState([])
+  /**
+   * @type ["all" | "active" | "completed", Function]
+   */
+  const [filter, setFilter] = useState("all")
+  const [tempText, setTempText] = useState("")
 
-  const onChangeTask = (e) => {
-    setTask(e.target.value)
-  }
+  const onAddTodo = (event) => {
+    event.preventDefault()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (task === "") return
-    //  setTodoList((prev) => [...prev, { isCompleted: false, task }])
-    const next = [...todoList, { isCompleted: false, task }]
+    if (tempText === "") {
+      return
+    }
+
+    const next = [...todoList]
+    next.push({
+      id: createId(),
+      isCompleted: false,
+      isEditing: false,
+      text: tempText,
+    })
     setTodoList(next)
-    setTask("")
-  }
-  // DELETEボタンの中身
-  const onClickDelete = (index) => {
-    const newTodoList = [...todoList]
-    newTodoList.splice(index, 1)
-    setTodoList(newTodoList)
+
+    // reset
+    setTempText("")
   }
 
-  // EDITボタンの中身
-  const onClickEdit = console.log("a")
+  const onDeleteTodo = (targetId) => {
+    setTodoList(todoList.filter((t) => t.id !== targetId))
+  }
 
-  // checkBoxの中身
-  const handleCheckboxChanges = (task) => {
-    setTodoList(
-      todoList.filter((x) => {
-        if (x === task) x.doning = !x.doing
-        return x
-      })
-    )
+  const onStartEditTodo = (targetId) => {
+    const next = [...todoList]
+    const target = next.find((t) => t.id === targetId)
+    target.isEditing = true
+    setTodoList(next)
+  }
+
+  const onEndEditTodo = (targetId, text) => {
+    const next = [...todoList]
+    const target = next.find((t) => t.id === targetId)
+    if (text) {
+      target.text = text
+    }
+    target.isEditing = false
+    setTodoList(next)
+  }
+
+  const onToggleCompleted = (targetId) => {
+    const next = [...todoList]
+    const target = next.find((t) => t.id === targetId)
+    target.isCompleted = !target.isCompleted
+    setTodoList(next)
   }
 
   return (
-    <React.Fragment>
-      <div>
-        <div css={root}>Todo App</div>
-        <div css={inputWrapper}>
-          <form onSubmit={handleSubmit}>
-            Add Task :
-            <input
-              // FORM の仕様
-              onChange={onChangeTask}
-              placeholder="Add New Task"
-              value={task}
-            />
-          </form>
-          <button
-            // TODO リストに追加ボタンを実装
-            onClick={(e) => {
-              handleSubmit(e)
-            }}
-          >
-            ADD
-          </button>
-        </div>
+    <div css={root}>
+      <h1>Todo App</h1>
+      <form onSubmit={onAddTodo}>
+        <input
+          onChange={(e) => setTempText(e.target.value)}
+          type="text"
+          value={tempText}
+        />
+        <button css={ml} type="submit">
+          Add
+        </button>
+      </form>
 
-        <ul>
-          {todoList.map((todo, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <ul css={inputWrapper} key={index}>
-              <input css={checkBoxWrapper} type="checkbox" />
-              {todo.task} {/* EDI Tボタンの実装 */}
-              <span css={editWrapper} onClick={() => onClickEdit(index)}>
-                EDIT
-              </span>
-              {/* DELETEボタンの実装 */}
-              <span css={deleteWrapper} onClick={() => onClickDelete(index)}>
-                DELETE
-              </span>{" "}
-            </ul>
-          ))}
-          <ul css={radioWrapper}>
-            <input type="radio" />
-            ALL
-            <input type="radio" />
-            Active
-            <input type="radio" />
-            Completed
-          </ul>
-        </ul>
-      </div>
-    </React.Fragment>
+      <div css={pt}></div>
+      <TodoListView
+        filter={filter}
+        onDelete={onDeleteTodo}
+        onEndEdit={onEndEditTodo}
+        onStartEdit={onStartEditTodo}
+        onToggleCompleted={onToggleCompleted}
+        todoList={todoList}
+      />
+
+      <div css={pt2}></div>
+      <TodoFilter onSelectFilter={setFilter} selected={filter} />
+    </div>
   )
 }
 
 const root = css`
-  font-size: 56px;
-  padding-top: 56px;
-  padding-left: 56px;
-
-  text-indent: 0.5em;
-`
-const inputWrapper = css`
-  font-size: 24px;
-  padding-top: 24px;
-  padding-left: 56px;
-`
-
-const deleteWrapper = css`
-  text-indent: 1em;
-  margin-left: 8px;
-  background-color: lightpink;
-`
-
-const editWrapper = css`
-  margin-left: 8px;
-  margin-right: 8px;
-  background-color: greenyellow;
-  text-indent: 1em;
-`
-const checkBoxWrapper = css`
-  width: 16px;
-  height: 16px;
-`
-
-// ラジオボタン
-const radioWrapper = css`
-  margin-left: 32px;
-  margin-top: 32px;
-  letter-spacing: 0.1em;
-  text-indent: 0.5em;
-  padding-left: 56px;
-  font-size: 24px;
+  padding: 16px;
 `
