@@ -47,18 +47,18 @@ export const TodoListView = ({
                   value={tempText}
                 />
               ) : (
-                  <span>
-                    <input
-                      checked={t.isCompleted}
-                      css={checkbox}
-                      onChange={() => onToggleCompleted(t.id)}
-                      type="checkbox"
-                    />
-                    <span css={[ml, t.isCompleted && completedText]}>
-                      {t.text}
-                    </span>
+                <span>
+                  <input
+                    checked={t.isCompleted}
+                    css={checkbox}
+                    onChange={() => onToggleCompleted(t.id)}
+                    type="checkbox"
+                  />
+                  <span css={[ml, t.isCompleted && completedText]}>
+                    {t.text}
                   </span>
-                )}
+                </span>
+              )}
               <button
                 css={[ml, editBtn]}
                 disabled={hasAnyEditing}

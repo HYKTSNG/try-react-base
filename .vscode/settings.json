@@ -17,6 +17,7 @@
    * Extensions
    */
   /** dbaeumer.vscode-eslint */
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
