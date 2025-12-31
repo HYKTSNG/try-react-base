@@ -32,10 +32,10 @@
     "eslint-plugin-sort-keys-fix": "1.1.1",
     "eslint-plugin-standard": "4.0.1",
     "import-sort-style-module": "6.0.0",
-    "npm-check-updates": "7.0.1",
+    "npm-check-updates": "19.2.0",
     "prettier": "2.0.5",
     "prettier-plugin-import-sort": "0.0.4",
-    "react-scripts": "3.4.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "build": "react-scripts build",
